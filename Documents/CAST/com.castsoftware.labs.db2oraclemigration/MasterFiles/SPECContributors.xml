@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  
+   <metric id='61004' type='technical-criterion' originalName='Architecture - OS and Platform Independence' contributorId='2090802' contributorType='quality-rule' contributororiginalName='Built-in SQL Functions need to be refactored.' critical='false' weight='6' />
+   <metric id='61004' type='technical-criterion' originalName='Architecture - OS and Platform Independence' contributorId='2090804' contributorType='quality-rule' contributororiginalName='Converting SQL language elements variations from DB2 to oracle' critical='false' weight='6' />
+   <metric id='61004' type='technical-criterion' originalName='Architecture - OS and Platform Independence' contributorId='2090806' contributorType='quality-rule' contributororiginalName='Datetime interval expressions need to be refactored' critical='false' weight='6' />
+   <metric id='61004' type='technical-criterion' originalName='Architecture - OS and Platform Independence' contributorId='2090808' contributorType='quality-rule' contributororiginalName='Data Types variations  from DB2 to Oracle' critical='false' weight='6' />
+   <metric id='61004' type='technical-criterion' originalName='Architecture - OS and Platform Independence' contributorId='2090810' contributorType='quality-rule' contributororiginalName='SELECT Statements from DB2 to Oracle need to be refactored' critical='false' weight='6' />
+   <metric id='61004' type='technical-criterion' originalName='Architecture - OS and Platform Independence' contributorId='2090812' contributorType='quality-rule' contributororiginalName='CREATE TABLE statement from DB2 to Oracle need to be refactored' critical='false' weight='6' />
+  
+  
+  </root>

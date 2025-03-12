@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="description">
+		<english>This quality rule searches for following Built-in functions inside SQL files:
+ATANH, BIGINT, BITANDNOT, BITOR, BITNOT, BITXOR, BLOB, CHAR, CHARACTER_LENGTH, CHAR_LENGTH, CLOB, COT, CURRENT_DATE, CURRENT_SERVER, SQLID, TIME, CURRENT_USER, CURSOR_ROWCOUNT, DATE, ...
+The list of Built-in functions searched can be configured in parsedefine.xml at the root of the extension. The Rulename is "Built_in_SQL_Functions_variations".</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="name">
+		<english>Built-in SQL Functions need to be refactored</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="output">
+		<english>Associated to each sql with violation, the quality rule provides:
+- The number of violation patterns
+- Bookmarks for violation patterns found in source code</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="rationale">
+		<english>Without adaptation, the SQL script won’t compile on Oracle, leading to error</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="remediation">
+		<english>Review the implementation and convert to Oracle supported functions.</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="associatedValueName">
+		<english>Number of violation patterns found in DB2 SQL file, Built-in SQL Functions.</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="reference">
+		<english>Db2 migration best practices. 
+  http://www.sqlines.com/db2-to-oracle#built-in-sql-functions</english>
+	</metric>
+	<metric id="2090802" type="quality-rule" originalName="Built-in SQL Functions need to be refactored" section="total">
+		<english>Number of DB2 SQL file.</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="description">
+		<english>This quality rule searches for following language elements inside SQL files:
+CONCAT, NEXT_VALUE, RESULT_SET_LOCATOR.
+The list of language elements searched can be configured in parsedefine.xml at the root of the extension. The Rulename is "SQL_language_elements_variations".</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="name">
+		<english>Converting SQL language elements variations from DB2 to oracle</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="output">
+		<english>Associated to each sql with violation, the quality rule provides:
+- The number of violation patterns
+- Bookmarks for violation patterns found in source code</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="rationale">
+		<english>Without adaptation, the SQL script won’t compile on Oracle, leading to error</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="remediation">
+		<english>Review the implementation and convert to language elements variations to Oracle supported elements.</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="associatedValueName">
+		<english>Number of violation patterns found in DB2 SQL file, language elements.</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="reference">
+		<english>Db2 migration  best practices.
+  http://www.sqlines.com/db2-to-oracle#language-elements</english>
+	</metric>
+	<metric id="2090804" type="quality-rule" originalName="Converting SQL language elements variations from DB2 to oracle" section="total">
+		<english>Number of DB2 SQL file.</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="description">
+		<english>This quality rule searches for following Datetime interval expressions inside SQL files:
+DAYS, MINUTES.
+The list ofDatetime interval expressions searched can be configured in parsedefine.xml at the root of the extension. The Rulename is "Datetime_interval_expressions_variations".</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="name">
+		<english>Datetime interval expressions need to be refactored</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="output">
+		<english>Associated to each sql with violation, the quality rule provides:
+- The number of violation patterns
+- Bookmarks for violation patterns found in source code</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="rationale">
+		<english>Without adaptation, the SQL script won’t compile on Oracle, leading to error</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="remediation">
+		<english>Review the implementation and convert to datetime interval expressions to Oracle supported elements.</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="associatedValueName">
+		<english>Number of violation patterns found in DB2 SQL file, Datetime interval expressions language elements.</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="reference">
+		<english>Db2 migration  best practices.
+  http://www.sqlines.com/db2-to-oracle#anguage-elements</english>
+	</metric>
+	<metric id="2090806" type="quality-rule" originalName="Datetime interval expressions need to be refactored" section="total">
+		<english>Number of DB2 SQL file.</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="description">
+		<english>This quality rule searches for following Data Types inside SQL files:
+BIGINT, CHAR_FOR_BIT_DATA, CHARACTER_VARYING, DBCLOB, DECIMAL, DECFLOAT, FLOAT, GRAPHIC, INTEGER, NCHAR_VARYING, NUMERIC, REAL, SMALLINT, TIME, VARCHAR, VARCHAR FOR BIT DATA, VARGRAPHIC, XML.
+The list of Db2 Data Types searched can be configured in parsedefine.xml at the root of the extension. The Rulename is "Data_Types_variations".</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations from DB2 to Oracle" section="name">
+		<english>Data Types variations  from DB2 to Oracle</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="output">
+		<english>Associated to each sql with violation, the quality rule provides:
+- The number of violation patterns
+- Bookmarks for violation patterns found in source code</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="rationale">
+		<english>Without adaptation, the SQL script won’t compile on Oracle, leading to error</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="remediation">
+		<english>Review the implementation and convert to Oracle supported data types.</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="associatedValueName">
+		<english>Number of violation patterns found in DB2 SQL file, Data Types variations.</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="reference">
+		<english>Db2 migration  best practices.
+   http://www.sqlines.com/db2-to-oracle#data-types</english>
+	</metric>
+	<metric id="2090808" type="quality-rule" originalName="Data Types variations  from DB2 to Oracle" section="total">
+		<english>Number of DB2 SQL file.</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored" section="description">
+		<english>This quality rule searches for following SELECT Statements variations inside SQL files:
+SYSDUMMY1, WITH_UR, FETCH, EXCEPT.
+The list of SELECT Statements variations searched can be configured in parsedefine.xml at the root of the extension. The Rulename is "SELECT_Statement_variations".</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored" section="name">
+		<english>SELECT Statements from DB2 to Oracle need to be refactored</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored" section="output">
+		<english>Associated to each sql with violation, the quality rule provides:
+- The number of violation patterns
+- Bookmarks for violation patterns found in source code</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored" section="rationale">
+		<english>Without adaptation, the SQL script won’t compile on Oracle, leading to error</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored" section="remediation">
+		<english>Review the implementation and convert to Oracle supported SELECT statements.</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored" section="associatedValueName">
+		<english>Number of violation patterns found in DB2 SQL file, select statements variations.</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored." section="reference">
+		<english>Db2 migration  best practices.
+   http://www.sqlines.com/db2-to-oracle#select-statement</english>
+	</metric>
+	<metric id="2090810" type="quality-rule" originalName="SELECT Statements from DB2 to Oracle need to be refactored." section="total">
+		<english>Number of DB2 SQL file.</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="description">
+		<english>This quality rule searches for CREATE TABLE statement inside SQL files, and report a violation when any create table statement is found.</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="name">
+		<english>CREATE TABLE statement from DB2 to Oracle need to be refactored</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="output">
+		<english>Associated to each sql with violation, the quality rule provides:
+- The number of violation patterns
+- Bookmarks for violation patterns found in source code</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="rationale">
+		<english>Without adaptation, the SQL script won’t compile on Oracle, leading to error</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="remediation">
+		<english>Review the implementation and  convert to Oracle supported statement type.</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="associatedValueName">
+		<english>Number of violation patterns found in DB2 SQL file, DDL type.</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored." section="reference">
+		<english>Db2 migration best practices.
+   http://www.sqlines.com/db2-to-oracle#create-table-statement</english>
+	</metric>
+	<metric id="2090812" type="quality-rule" originalName="CREATE TABLE statement from DB2 to Oracle need to be refactored" section="total">
+		<english>Number of DB2 SQL file.</english>
+	</metric>
+</root>
