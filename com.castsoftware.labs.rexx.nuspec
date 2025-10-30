@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>com.castsoftware.labs.rexx</id>
+    <version>1.0.6</version>
+    <title>Technology Extension for Mainframe Rexx</title>
+    <authors>CAST Labs</authors>
+    <owners>CAST</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://help.castsoftware.com/hc/en-us/articles/212612648-AIP-Extension-License</licenseUrl>
+    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.labs.rexx/wiki</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/CAST-Extend/com.castsoftware.labs.rexx/master/Rexx.jpg</iconUrl>
+    <description>Technology Extension for Mainframe Rexx Language. Supports Function Point and Application Discovery.</description>
+    <releaseNotes>https://github.com/CAST-Extend/com.castsoftware.labs.rexx/wiki#version-106-release-notes</releaseNotes>
+    <tags>Platform:All CASTLabs FPQuality techno:db techno:Mainframe CAIP8.2 CAIP8.3</tags>
+    <dependencies>
+      <dependency id="CAIP" version="8.3.0" />
+      <dependency id="com.castsoftware.dmtgenericfilediscoverer" version="1.0.6" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metaModel file_level="client" file_no="2500">
+
+	<!-- GrepTag:APM_Rexx_categories -->
+	<category name="APM Rexx Module" rid="0">
+		<description>Rexx</description>
+		<inheritedCategory name="APM Client Modules"/>
+	</category>
+
+	<category name="APM Rexx Artifacts" rid="1">
+		<description>Rexx Artifacts</description>
+		<inheritedCategory name="APM Client Language Artifacts"/>
+	</category>
+
+	<!-- CAST Rexx language categories and types -->
+	<category name="Rexx" rid="2">
+		<description>Rexx Language</description>
+		<attribute name="extensions" stringValue="*.REXX;*.rexx"/>
+		<inheritedCategory name="UniversalLanguage"/>
+		<inheritedCategory name="CsvLanguage"/>
+		<inheritedCategory name="caseInsensitive"/>
+	</category>
+	
+	<!-- Rexx Types -->
+	<type name="Rexxproject" rid="3">
+		<description>Rexx Project</description>
+		<inheritedCategory name="Rexx"/>
+		<inheritedCategory name="APM Rexx Module"/>
+		<inheritedCategory name="identification"/>
+		<inheritedCategory name="UAProject"/>
+		<inheritedCategory name="UAObject"/>
+		<inheritedCategory name="persistent"/>
+		<inheritedCategory name="CastSystemViews"/>
+	</type>
+
+	<type name="Rexx_SUBSET" rid="400">
+		<description>Rexx Subset</description>
+		<inheritedCategory name="Rexx"/>
+		<inheritedCategory name="PROJECT_SUBSET"/>
+		<inheritedCategory name="APM Rexx Module"/>
+	</type>
+		
+	<type name="EnlightenRexx" rid="5">
+		<description>Rexx</description>
+		<tree parent="EnlightenUniversalObjects" category="EnlightenTree"/>
+	</type>
+	
+	<type name="Rexxprogram" rid="6">
+		<description>Rexx Program</description>
+		<inheritedCategory name="Rexx"/>
+		<inheritedCategory name="UAObject"/>
+		<inheritedCategory name="ESQLSearchable"/>
+		<inheritedCategory name="caseInsensitive"/>
+		<inheritedCategory name="METRICABLE"/>
+		<inheritedCategory name="APM Rexx Artifacts"/>
+		<inheritedCategory name="CalleeLinkable"/>		
+		<inheritedCategory name="CallerLinkable"/>		
+		<tree parent="sourceFile" category="amtParentship"/>
+		<tree parent="EnlightenRexx" category="EnlightenTree"/>
+	</type>
+	
+	<type name="Rexxfile" rid="7">
+		<description>Rexx File</description>
+		<inheritedCategory name="Rexx"/>
+		<inheritedCategory name="UAObject"/>
+		<inheritedCategory name="CalleeLinkable"/>		
+		<inheritedCategory name="CallerLinkable"/>		
+		<tree parent="Rexxprogram" category="amtParentship"/>
+		<tree parent="EnlightenRexx" category="EnlightenTree"/>		
+	</type>	
+
+	<type name="Rexxfunction" rid="8">
+		<description>Rexx Function</description>
+		<inheritedCategory name="Rexx"/>
+		<inheritedCategory name="UAObject"/>
+		<inheritedCategory name="ESQLSearchable"/>		
+		<inheritedCategory name="CalleeLinkable"/>		
+		<inheritedCategory name="CallerLinkable"/>		
+		<tree parent="Rexxprogram" category="amtParentship"/>
+		<tree parent="EnlightenRexx" category="EnlightenTree"/>
+		<inheritedCategory name="METRICABLE"/>
+	</type>	
+    
+	<type name="Rexxprocedure" rid="9">
+		<description>Rexx Procedure</description>
+		<inheritedCategory name="Rexx"/>
+		<inheritedCategory name="UAObject"/>
+		<inheritedCategory name="ESQLSearchable"/>		
+		<inheritedCategory name="CalleeLinkable"/>		
+		<inheritedCategory name="CallerLinkable"/>		
+		<tree parent="Rexxprogram" category="amtParentship"/>
+		<tree parent="EnlightenRexx" category="EnlightenTree"/>
+		<inheritedCategory name="METRICABLE"/>
+
+	</type>		
+	
+	<type name="Unknown_Rexxprogram" rid="10">
+		<description>Unknown Rexx Program</description>
+		<inheritedCategory name="UAObject"/>
+		<inheritedCategory name="ESQLSearchable"/>
+		<inheritedCategory name="caseInsensitive"/>
+		<inheritedCategory name="METRICABLE"/>
+		<inheritedCategory name="APM Rexx Artifacts"/>
+		<inheritedCategory name="CalleeLinkable"/>		
+		<inheritedCategory name="CallerLinkable"/>		
+		<inheritedCategory name="JCL"/>
+		<tree parent="GROUP_JCL" category="EnlightenTree"/>
+		<inheritedCategory name="CAST_JCL_FileSubObject"/>
+		<tree parent="sourceFile" category="amtParentship"/>
+		<tree parent="Rexxprogram" category="amtParentship"/>
+	</type>
+</metaModel>
