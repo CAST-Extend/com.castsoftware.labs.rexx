@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>com.castsoftware.labs.rexx</id>
-    <version>1.0.7</version>
+    <version>1.0.8-build0@@@</version>
     <title>Technology Extension for Mainframe Rexx</title>
     <authors>CAST Labs</authors>
     <owners>CAST</owners>
