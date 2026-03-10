@@ -54,7 +54,8 @@
 		<inheritedCategory name="METRICABLE"/>
 		<inheritedCategory name="APM Rexx Artifacts"/>
 		<inheritedCategory name="CalleeLinkable"/>		
-		<inheritedCategory name="CallerLinkable"/>		
+		<inheritedCategory name="CallerLinkable"/>
+		<inheritedCategory name="CAST_Program"/>
 		<tree parent="sourceFile" category="amtParentship"/>
 		<tree parent="EnlightenRexx" category="EnlightenTree"/>
 	</type>
