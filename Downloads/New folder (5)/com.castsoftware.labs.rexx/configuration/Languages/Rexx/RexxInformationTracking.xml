@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<InformationTracking id="Rexx">
+	
+	<!-- To denote that links cannot occur in Strings -->
+			<searchLinksInString>false</searchLinksInString> 
+			
+			<Rexxprogram>
+      
+					<accessReadLink>
+						<scope>sourceFile</scope>
+					</accessReadLink>
+				<callLink>
+					<scope>sourceFile</scope>			
+				</callLink>	
+				<accessWriteLink>
+					<scope>sourceFile</scope>				
+				</accessWriteLink>				
+					
+			</Rexxprogram>	
+			
+			<Rexxfile>
+				<accessReadLink>
+					<scope>sourceFile</scope>
+				</accessReadLink>
+				
+				<accessWriteLink>
+					<scope>sourceFile</scope>			
+				</accessWriteLink>
+			
+			</Rexxfile>
+
+            <Rexxprocedure>
+				<callLink>
+					<scope>sourceFile</scope>
+					<transition>
+									<linkType>includeLink</linkType>
+									<method>recursive</method>
+									<priority>first</priority>
+					</transition>	
+				</callLink>	
+			</Rexxprocedure>	
+			
+</InformationTracking>
+	
+	
+	
+	
