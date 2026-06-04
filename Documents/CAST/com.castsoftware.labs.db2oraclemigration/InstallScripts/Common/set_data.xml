@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<DATA model="OBJSET" version="1.0.0.0" scope="OBJSETINIT" export="OK">
-<SET_Definitions>
-	<SetId>2090001</SetId>
-	<SetName>SET_dbmigration_CustomMetrics</SetName>
-	<SetType>DIAG_SCOPE</SetType>
-	<SetProcedure>SET_dbmigration_CustomMetrics</SetProcedure>
-</SET_Definitions>
-</DATA>
