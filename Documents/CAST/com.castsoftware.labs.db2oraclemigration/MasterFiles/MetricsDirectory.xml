@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+	<metric id='-1' type='N/A' originalName='' active='N/A' detached='N/A' ignored='false' />
+	
+    <metric id="61004" type="technical-criterion" originalName="Architecture - OS and Platform Independence" active='N/A' detached='N/A' ignored="false"/>
+
+ 
+    <metric id='2090802' type='quality-rule' originalName='Built-in SQL Functions need to be refactored' active='true' detached='false' ignored='false' />
+    <metric id='2090804' type='quality-rule' originalName='Converting SQL language elements variations from DB2 to oracle' active='true' detached='false' ignored='false' />
+    <metric id='2090806' type='quality-rule' originalName='Datetime interval expressions need to be refactored' active='true' detached='false' ignored='false' />
+    <metric id='2090808' type='quality-rule' originalName='Data Types variations  from DB2 to Oracle' active='true' detached='false' ignored='false' />
+    <metric id='2090810' type='quality-rule' originalName='SELECT Statements from DB2 to Oracle need to be refactored' active='true' detached='false' ignored='false' />
+    <metric id='2090812' type='quality-rule' originalName='CREATE TABLE statement from DB2 to Oracle need to be refactored' active='true' detached='false' ignored='false' />
+ </root>

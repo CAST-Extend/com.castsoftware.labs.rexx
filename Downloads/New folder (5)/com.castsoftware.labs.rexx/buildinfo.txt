@@ -1,0 +1,5 @@
+Build date: 10/03/2026 14:22:48,28 
+Build number: 1000005 
+Build url: https://jenkins.corp.castsoftware.com:443/job/TechnologyExtension_com.castsoftware.labs.rexx/5/ 
+Git head commit: git@gitlab.com:castsoftware/technology_extensions/build.git origin/master 929290a6789284e100e30ca1875ba5c752ed7cc2
+Git head commit: https://github.com/CAST-Extend/com.castsoftware.labs.rexx.git origin/master 2a990524097e7522121317de8a4a7b7619035753

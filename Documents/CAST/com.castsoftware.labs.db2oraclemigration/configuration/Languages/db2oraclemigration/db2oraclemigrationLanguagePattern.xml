@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languagePattern id="db2oraclemigration">
+
+   <string>
+      <begin><![CDATA[(?<!')']]></begin>
+      <end><![CDATA[(?<!')(?:'')*'(?!')]]></end>
+   </string>
+
+   <string>
+      <begin><![CDATA[(?<!")"]]></begin>
+      <end><![CDATA[(?<!\")(?:"")*"(?!")]]></end>
+   </string>
+   
+   
+</languagePattern>
