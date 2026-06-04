@@ -1,0 +1,39 @@
+# Visual Studio cache and settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+
+# Other IDE files
+*.vscode/
+*.idea/
+
+# Auto-generated files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.db
