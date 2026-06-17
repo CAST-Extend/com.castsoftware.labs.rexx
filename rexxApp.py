@@ -1,10 +1,9 @@
-import cast_upgrade_1_6_23 # @UnusedImport
-from cast.application import ApplicationLevelExtension, create_link,ReferenceFinder, Bookmark, CustomObject
-import logging
-from builtins import len
-from _collections import defaultdict
+import cast_upgrade_1_6_25 # @UnusedImport
+from cast.application import ApplicationLevelExtension, logging, create_link,ReferenceFinder, Bookmark, CustomObject
+from collections import defaultdict
 import sys
 import traceback
+import re
 
 
 class rexxApp(ApplicationLevelExtension):
@@ -40,47 +39,64 @@ class rexxApp(ApplicationLevelExtension):
             logging.info(traceback_str)
                 
         
-        # matching by name : if CAST_COBOL_ProgramPrototype has same name as Rexx Program, they are the same object
-        for cobol_unknown in self.cobol_unknown_list:
-            rexx_objs = self.rexx_program_list_obj.get(cobol_unknown.get_name()) 
-            if rexx_objs != None:
-                for rexx_obj in rexx_objs:
-                    # we have a match
-                    logging.info("****** Creating Link between Unknown Cobol Program and Rexx Program")
-                    link = ('matchLink', cobol_unknown, rexx_obj)
-                    self.new_links.append(link)
-       
+        parm_re = re.compile(r"PARM=['\"]([^'\"]+)")
+
         for link in  application.links().load_positions().has_caller(application.objects().has_type("CAST_JCL_Step")).has_callee(application.objects().has_type(['JCL_PROGRAM','CAST_COBOL_UtilityProgram','CAST_COBOL_ProgramPrototype'])):
             if link.get_callee().get_name() == 'IRXJCL' or link.get_callee().get_name().startswith('IKJEFT'):
                 jcl_step_rexxbatch_caller = link.get_caller()
-                if len(link.get_positions()) > 0:
-                    bookmark_pos = link.get_positions()[0]
-                    bookmark_code = bookmark_pos.get_code()
-                    bookmark_lines = bookmark_code.splitlines()
-                    systsin_found = "N"
-                    for code_line in bookmark_lines:
-                        if "PARM='" in code_line:
-                            rexx_program = code_line.split("PARM='")[1].split()[0]
-                            rexx_program = rexx_program.split("'")[0].split('"')[0]
-                            if not '&' in rexx_program:
-                                self._create_unknown_object_link(jcl_step_rexxbatch_caller,rexx_program)
-                        elif code_line.startswith('//SYSTSIN') and not ' DUMMY' in code_line:
-                            systsin_found = "Y"
-                        elif systsin_found == 'Y':
-                            if code_line.strip().startswith('ISPSTART'):
-                                rexx_program = code_line.strip().split()[1].split('CMD(')[1].strip(')')
-                                self._create_unknown_object_link(jcl_step_rexxbatch_caller,rexx_program)
-                                systsin_found = "N"
-                            elif code_line.strip().startswith('%'):
-                                x  = code_line.strip().split()[0].split("%")
-                                rexx_program = x[len(x)-1]
-                                self._create_unknown_object_link(jcl_step_rexxbatch_caller,rexx_program)
-                                systsin_found = "N"
-                            #elif not ' DSN=' in code_line.strip():
-                            #     rexx_program  = code_line.strip().split()[0]
-                            #     self._create_unknown_object_link(jcl_step_rexxbatch_caller,rexx_program)
-                            #     systsin_found = "N"
-                            
+                positions = link.get_positions()
+                if positions:
+                    self.existing_project_link = link.get_project()
+                    bookmark_pos = positions[0]
+                    self.filepath = bookmark_pos.file.get_path()
+                    bookmark_code = bookmark_pos.get_code() or ""
+                    bookmarked_lines = bookmark_code.splitlines()
+                    systsin_found = False
+                    for code_line in bookmarked_lines:
+                        m = parm_re.search(code_line)
+                        if m:
+                            rexx_program = m.group(1).split()[0]
+                            if '&' not in rexx_program:
+                                self._create_unknown_object_link(jcl_step_rexxbatch_caller, rexx_program)
+                            continue
+
+                        if code_line.startswith('//SYSTSIN') and ' DUMMY' not in code_line:
+                            systsin_found = True
+                            continue
+
+                        if not systsin_found:
+                            continue
+
+                        stripped = code_line.strip()
+
+                        if stripped.startswith('ISPSTART'):
+                            parts = stripped.split()
+                            if len(parts) > 1 and 'CMD(' in parts[1]:
+                                if systsin_found or 'PARM=' in stripped.upper():
+                                    cmd_part = parts[1]
+                                    m = re.search(r'CMD\(\s*([^,)\s]+)', cmd_part)
+                                    if m:
+                                        prog = m.group(1).strip('"\'')
+                                        self._create_unknown_object_link(jcl_step_rexxbatch_caller, prog)
+                            systsin_found = False
+
+                        elif stripped.startswith('%'):
+                            token = stripped.split()[0]  
+                            m = re.match(r'%\s*([^%\s(,]+)', token)
+                            if m:
+                                rexx_program = m.group(1) 
+                                if (systsin_found or 'PARM=' in stripped.upper()) and rexx_program:
+                                    self._create_unknown_object_link(jcl_step_rexxbatch_caller, rexx_program)
+                            systsin_found = False
+                        
+
+    def create_guid(self, objectType, objectName):
+        
+        if not type(objectName) is str:
+            return objectType + '/' + objectName.name
+        else:
+            return objectType + '/' + objectName
+        
     def _create_unknown_object_link(self,jcl_step_rexxbatch_caller,rexx_program): 
         link_created = "N"
         rexx_objs = self.rexx_program_list_obj.get(rexx_program) 
@@ -98,13 +114,16 @@ class rexxApp(ApplicationLevelExtension):
         if link_created == "N":    
             try:
                 if self.unknown_objects.get(rexx_program) == None:
+                    fullname = self.create_guid('Unknown_Rexxprogram', rexx_program) + '/' + self.filepath + '/'
+
                     logging.info("Creating Unknown object for " + str(rexx_program))
                     try:
                         unknownrexxObject = CustomObject()
                         unknownrexxObject.set_name(rexx_program)
-                        unknownrexxObject.set_fullname("Missing Rexx Program/%s" % (rexx_program))
+                        unknownrexxObject.set_fullname(fullname)
                         unknownrexxObject.set_type('Unknown_Rexxprogram')
-                        unknownrexxObject.set_parent(jcl_step_rexxbatch_caller)
+                        unknownrexxObject.set_parent(self.existing_project_link)
+                        unknownrexxObject.set_guid(fullname)
                         unknownrexxObject.save()
                     except Exception as e:
                         exception_type, value, tb = sys.exc_info()
@@ -113,11 +132,11 @@ class rexxApp(ApplicationLevelExtension):
                         logging.warning(traceback_str)
                     
                     self.unknown_objects[rexx_program].append(unknownrexxObject)
-                    lnk = ("callLink", jcl_step_rexxbatch_caller,unknownrexxObject)
+                    lnk = ("callLink", jcl_step_rexxbatch_caller,rexx_program)
                     self.new_links.append(lnk) 
                 else:
                     for unknown_obj in self.unknown_objects.get(rexx_program):
-                        lnk = ("callLink", jcl_step_rexxbatch_caller,unknown_obj)
+                        lnk = ("callLink", jcl_step_rexxbatch_caller,rexx_program)
                         self.new_links.append(lnk) 
                     
             except:
@@ -126,24 +145,43 @@ class rexxApp(ApplicationLevelExtension):
     def end_application(self, application):
         
         logging.info("Running code at the end of an application")
-
+# Build a lookup for Unknown_Rexxprogram objects by name to avoid repeated iteration
+        unknowns_by_name = {u.name: u for u in application.objects().has_type('Unknown_Rexxprogram')}
         for link in self.new_links:
-            logging.info("Link to be created is " + str(link))
-            link_created = 'N'
-            for unknown in application.objects().has_type('Unknown_Rexxprogram'):
-                if unknown.get_fullname() == link[2].get_fullname(): 
-                    l = create_link(link[0], link[1], unknown)
-                        
-                    if None == l:
-                        logging.info("1. Could NOT create link " + str(link[0]) + " link between " + str(link[1]) + " and " + (str(link[2]._id) + '  '  + link[2].get_fullname()) if isinstance(link[2], CustomObject) else str(link[2]))
-                    else:  
-                        logging.info("1. Created id:" + str (l._AMTLink__id) + " " + str(link[0]) + " link between " + str(link[1]) + " and " + (str(link[2]._id) + '  '  + link[2].get_fullname()) if isinstance(link[2], CustomObject) else str(link[2]))
-                        link_created = 'Y'  
-                        self.nbLinkCreated += 1
-     
-            if link_created == 'N':
-                create_link(*link) 
-                self.nbLinkCreated += 1
-                
-        logging.info("****** Number of Links Created " + str(self.nbLinkCreated))
+            logging.info("Link to be created is %s", link)
+            created = False
+
+            dest = link[2]
+            # If dest is already an object, use it; otherwise try to find by name
+            target_obj = dest if isinstance(dest, CustomObject) else unknowns_by_name.get(dest)
+
+            if target_obj is not None:
+                l = create_link(link[0], link[1], target_obj)
+                if l is None:
+                    if isinstance(target_obj, CustomObject):
+                        target_info = "%s  %s" % (getattr(target_obj, '_id', 'n/a'), target_obj.get_fullname())
+                    else:
+                        target_info = str(target_obj)
+                    logging.info("1. Could NOT create link %s link between %s and %s", link[0], link[1], target_info)
+                else:
+                    link_id = getattr(l, '_AMTLink__id', 'unknown')
+                    if isinstance(target_obj, CustomObject):
+                        target_info = "%s  %s" % (getattr(target_obj, '_id', 'n/a'), target_obj.get_fullname())
+                    else:
+                        target_info = str(target_obj)
+                    logging.info("1.Created id:%s %s link between %s and %s", link_id, link[0], link[1], target_info)
+                    created = True
+                    self.nbLinkCreated += 1
+
+            if not created:
+                # Try creating the link with the original arguments; check result before incrementing
+                l = create_link(*link)
+                if l is None:
+                    logging.info("Could NOT create link with args %s", link)
+                else:
+                    link_id = getattr(l, '_AMTLink__id', 'unknown')
+                    logging.info("Created id:%s via create_link(*link) args %s", link_id, link)
+                    self.nbLinkCreated += 1
+
+        logging.info("****** Number of Links Created %s", self.nbLinkCreated)
 

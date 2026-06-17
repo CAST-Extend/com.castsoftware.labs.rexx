@@ -1,7 +1,6 @@
-import cast_upgrade_1_6_23 # @UnusedImport
+import cast_upgrade_1_6_25 # @UnusedImport
 from cast.application import ApplicationLevelExtension
 import logging
-from builtins import len
 import os, codecs
 import zipfile
 import time 
@@ -9,6 +8,8 @@ from os.path import dirname as up
 from zipfile import ZIP_DEFLATED
 import traceback
 import sys
+
+from rexxAnalysis import open_source_file
 
 class rexxpreproc(ApplicationLevelExtension):
 
@@ -68,58 +69,57 @@ def zipdir(src, dst, zip_name):
                 ziph.write(os.path.join(root, file), arcname=os.path.join(root.replace(src, ""), file))
 
 
-def update_sources(self,aps_au_source_included_folder):
-    aps_source_included_file_list = []
+def update_sources(self, aps_au_source_included_folder):
+    aps_source_included_file_list = [
+        list_folder(p[0] if isinstance(p, (list, tuple)) else p)
+        for p in aps_au_source_included_folder
+    ]
 
-    for p in aps_au_source_included_folder:
-        #self.zip_file_location =  p[0]
-                
-        #two_up = up(self.zip_file_location)
-            
-        #current_path = os.path.basename(os.path.normpath(self.zip_file_location))
-                
-        #self.new_file_name = time.strftime(current_path  + "%Y%m%d_%H%M%S.zip")
-                
-        #zipdir(self.zip_file_location, two_up, self.new_file_name)
-        aps_source_included_file_list.append(list_folder(p[0]))
-        
     source_dir_path_list_ref = []
+    ext_set = {e.lower() for e in self.extensions}
 
-    for i in aps_source_included_file_list:
-        source_file_list = i[0]
-        source_dir_path_list = i[1]
+    for source_file_list, source_dir_path_list in aps_source_included_file_list:
         for dirn in source_dir_path_list:
-            dirn = dirn.replace("\\","\\")
-            source_dir_path_list_ref.append(dir)
-            
+            source_dir_path_list_ref.append(os.path.normpath(dirn))
+
         for file in source_file_list:
-            if not file.endswith(".tmp"):
-                file_name, ext = os.path.splitext(os.path.basename(file))
-                if ext.lower() in self.extensions:
-                    self.nbASMSourceFilesScanned += 1
-                    all_lines = read_file(file)
-                    logging.info(" Processing Source File " + str(file))
-                    if len(all_lines.splitlines()) > 0:
-                        existing_first_line = all_lines.splitlines()[0]                
-                        start_line = self.start_tag + file_name + ")" + os.linesep
-                        end_line = self.end_tag + os.linesep
-                        if existing_first_line.startswith(self.start_tag):
-                            logging.info("Skipping the file since it already contains the Tags " + str(file))
-                            pass
-                        else:
-                            new_lines = start_line + all_lines + end_line
-                            self.nbASMSourceFilesUpdated += 1
-                            #backup_file(self, file, all_lines, ".tmp")
-                            try:
-                                os.remove(file)    
-                            except OSError:
-                                logging.info("Could not remove the file" + str(file))
-                                
-                            backup_file(self, file, new_lines, "")
-                    else:
-                        logging.info(" Empty file " + str(file))
-                   
+            if file.lower().endswith(".tmp"):
+                continue
+
+            base = os.path.basename(file)
+            file_name, ext = os.path.splitext(base)
+            if ext.lower() not in ext_set:
+                continue
+
+            self.nbASMSourceFilesScanned += 1
+            all_lines = read_file(file)
+            logging.info("Processing Source File %s", file)
+
+            if not all_lines:
+                logging.info("Empty file %s", file)
+                continue
+
+            lines = all_lines.splitlines()
+            existing_first_line = lines[0] if lines else ""
+            start_line = self.start_tag + file_name + ")" + os.linesep
+            end_line = self.end_tag + os.linesep
+
+            if existing_first_line.startswith(self.start_tag):
+                logging.info("Skipping the file since it already contains the Tags %s", file)
+                continue
+
+            new_lines = start_line + all_lines + end_line
+            self.nbASMSourceFilesUpdated += 1
+
+            try:
+                os.remove(file)
+            except OSError:
+                logging.info("Could not remove the file %s", file)
+
+            #backup_file(self, file, new_lines, "")
+
     return
+
 
 def backup_file(self, file, source_data, new_file_extn):
 
@@ -149,32 +149,8 @@ def list_folder(infolder):
 def read_file(sourcefile): 
     source_file_lines = ""
     
-    from chardet.universaldetector import UniversalDetector
-
-    encoding = None
-    
-    if not encoding:
-        detector = UniversalDetector()
-        with open(sourcefile, 'rb') as f:
-            count = 0
-            for line in f:
-                detector.feed(line)
-                count += 1
-                if detector.done or count > 100: 
-                    break
-        detector.close()
-    
-        encoding = detector.result['encoding']
-        
-    try:
-        with open(sourcefile, 'r', encoding=encoding, errors='replace') as fobj: 
-            source_file_lines = fobj.read()
-            
-    except Exception as e:
-        exception_type, value, tb = sys.exc_info()
-        logging.info('exception_type = ' + str(exception_type) + ' Error message = ' + str(e))
-        traceback_str = ''.join(traceback.format_tb(tb))
-        logging.info(traceback_str)
+    with open_source_file(sourcefile) as f:
+        source_file_lines = f.read()
     
     return source_file_lines 
     
